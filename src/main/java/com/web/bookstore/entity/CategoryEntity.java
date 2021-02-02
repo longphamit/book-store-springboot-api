@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Category")
+@Table(name = "Category") // may cai nay khai bao map voi bang database nayok
 public class CategoryEntity {
 	@Id
 	@Column(name = "id")

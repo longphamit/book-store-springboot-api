@@ -9,4 +9,7 @@ import com.web.bookstore.entity.CategoryEntity;
 
 public interface ICategoryService {
 	public List<CategoryEntity> listAllCategory();
+	public boolean createNewCategory(String name);
+	public boolean removeCategory(String id);
+	public boolean updateCategory(CategoryEntity entity);
 }
