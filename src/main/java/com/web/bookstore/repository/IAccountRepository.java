@@ -12,15 +12,18 @@ public interface IAccountRepository extends JpaRepository<AccountEntity, String>
 	//Get accounts are blocked or not blocked
 	//True -> not blocked
 	//False -> blocked
-	@Query("Select from AccounEntity where isNotBlocked=: isNotBlocked ")
-	public List<AccountEntity> getAccountByBlockedStatus(@Param("isNotBlocked") boolean isNotBlocked);
+//	@Query("Select from AccounEntity where isNotBlocked=: isNotBlocked ")
+//	public List<AccountEntity> getAccountByBlockedStatus(@Param("isNotBlocked") boolean isNotBlocked);
+//	
+//	//Block an account
+//	@Query("Update AccountEntity set isNotBlocked=false where username=:username ")
+//	public boolean blockAnAccount(@Param("username")String username);
+//	
+//	//Remove an account
+//	@Query("Delete from AccountEntity where username=:username")
+//	public boolean removeAnAccount(@Param("username")String username);
 	
-	//Block an account
-	@Query("Update AccountEntity set isNotBlocked=false where username=:username ")
-	public boolean blockAnAccount(@Param("username")String username);
+	//loginByUserName
 	
-	//Remove an account
-	@Query("Delete from AccountEntity where username=:username")
-	public boolean removeAnAccount(@Param("username")String username);
-	
+	public AccountEntity findByUserName(String username);
 }

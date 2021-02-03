@@ -13,8 +13,8 @@ import com.web.bookstore.entity.CategoryEntity;
 // muc dich de no autowired lai trong cai goi la Ioc
 public interface ICategoryRepository extends JpaRepository<CategoryEntity,String> {
 	
-	@Query("select * from CategoryEntity where id =:id") // cai nay la truyen tham so vaook
-	public List<CategoryEntity> findAll(@Param("id") String id);
+//	@Query("select * from CategoryEntity where id =:id") // cai nay la truyen tham so vaook
+//	public List<CategoryEntity> findAll(@Param("id") String id);
 	
 	//@Query("insert into CategoryEntity(id,name) values(:id,:name)")
 }

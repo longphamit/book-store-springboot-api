@@ -1,18 +1,30 @@
 package com.web.bookstore.entity;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 @Entity
 @Table(name = "Account")
-public class AccountEntity {
+public class AccountEntity implements Serializable,UserDetails {
+	
 	@Id
+	@Column(name="id")
+	private String id;
+	
 	@Column(name ="username")
-	private String username;
+	private String userName;
 	@Column(name ="password")
 	private String password;
 	@Column(name ="name")
@@ -25,7 +37,7 @@ public class AccountEntity {
 	private String gender;
 	@Column(name="isActive")
 	private boolean isActive;
-	@Column(name="isNotBlocked")
+	@Column(name="isNotlocked")
 	private boolean isNotBlocked;
 	@Column(name="lastLogin")
 	private Date lastLogin;
@@ -37,12 +49,14 @@ public class AccountEntity {
 	private String avatar;
 	
 	
-	
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getId() {
+		return id;
+	}
 	public String getEmail() {
 		return email;
-	}
-	public String getUsername() {
-		return username;
 	}
 	public String getPassword() {
 		return password;
@@ -84,8 +98,13 @@ public class AccountEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	@Override
+	public String getUsername() {
+		
+		return this.userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
@@ -110,5 +129,31 @@ public class AccountEntity {
 	}
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
+	}
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<SimpleGrantedAuthority>  collectionGrant= new  ArrayList<SimpleGrantedAuthority>();
+		collectionGrant.add(new SimpleGrantedAuthority(getRole()));
+		return collectionGrant;
+	}
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 }
