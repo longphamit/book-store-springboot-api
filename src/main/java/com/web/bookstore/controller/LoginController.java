@@ -1,5 +1,6 @@
 package com.web.bookstore.controller;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.web.bookstore.dto.AuthenticateDTO;
-
+import com.web.bookstore.dto.MessageDTO;
 import com.web.bookstore.service.IAccountServices;
 import com.web.bookstore.util.JWTUtil;
 
@@ -35,31 +36,37 @@ public class LoginController {
 	IAccountServices accountServices;
 	@Autowired
 	AuthenticationManager authentication;
-
+	@Autowired
+	MessageDTO messageDTO;
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody Object object){
+	public ResponseEntity<Object> login(@RequestBody Object object){
+		JSONObject jsonResult= new JSONObject();
 		try {
 			JSONObject jsonObject= new JSONObject(new Gson().toJson(object));
 			String username=jsonObject.getString("username");
 			String password=jsonObject.getString("password");
 			
 			Authentication authentication= authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(username,password)
-					
-					);
+					new UsernamePasswordAuthenticationToken(username,password));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			AuthenticateDTO authenticateDTO= new AuthenticateDTO();
 			authenticateDTO.setUsername(username);
 			authenticateDTO.setRole("ROLE_USER");
 			String jwt=JWTUtil.createJWT(authenticateDTO);
-			
-			logger.info("Xac thuc thanh cong");
-			return new ResponseEntity<String>(jwt,HttpStatus.OK);
+			jsonResult.put("jwt", jwt);
+			JSONArray array= new JSONArray();
+			array.put(jsonResult);
+			messageDTO.createReturn("Login success", true,array);
+			logger.info("Login success");
+			return new ResponseEntity<Object>(messageDTO.getResult(),HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
+			messageDTO.createReturn("Login fail", false,new JSONArray());
 			logger.error("Xac thuc that bai");
+			
 		}
-		return new ResponseEntity<String>("Error",HttpStatus.OK);
+		
+		return new ResponseEntity<Object>(messageDTO.getResult(),HttpStatus.UNAUTHORIZED);
 	}
 	
 }
