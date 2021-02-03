@@ -12,4 +12,5 @@ public interface ICategoryService {
 	public boolean createNewCategory(String name);
 	public boolean removeCategory(String id);
 	public boolean updateCategory(String id, String name);
+
 }
