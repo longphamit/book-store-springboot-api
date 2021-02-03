@@ -11,5 +11,5 @@ public interface ICategoryService {
 	public List<CategoryEntity> listAllCategory();
 	public boolean createNewCategory(String name);
 	public boolean removeCategory(String id);
-	public boolean updateCategory(CategoryEntity entity);
+	public boolean updateCategory(String id, String name);
 }
